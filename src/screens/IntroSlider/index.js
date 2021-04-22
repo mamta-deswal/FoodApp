@@ -1,9 +1,10 @@
-/**Slider of Rider App */
+/**Slider of FeedApp */
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
 import AppIntroSlider from '../../../customlibrary/react-native-app-intro-slider';
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const NEXT_BUTTON_WIDTH = .48 * SCREEN_WIDTH
+
 export default class IntroSlider extends Component {
   constructor(props) {
     super(props);
@@ -39,20 +40,16 @@ export default class IntroSlider extends Component {
       </View>
     );
   }
-  /** After final submit go ot Auth Screens*/
+
   _onDone = () => {
     this.props.navigation.navigate("Home");
   };
 
   _renderNextButton = (x) => {
     return (
-      <View style={{
-        flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
-        width: NEXT_BUTTON_WIDTH, height: NEXT_BUTTON_WIDTH * .24,
-        backgroundColor: 'white', borderTopLeftRadius: 42, borderBottomLeftRadius: 42,
-      }} >
-        <Text style={{ fontSize: 22, lineHeight: 27, textAlignVertical: 'center', color: '#492897' }}>Next</Text>
-        <Image resizeMode={'stretch'} style={{ width: 30, height: 25, marginLeft: 24 }}
+      <View style={styles.btnWrap} >
+        <Text style={styles.nextLabel}>Next</Text>
+        <Image resizeMode={'stretch'} style={styles.arrowImg}
           source={require('../../assets/images/intro_slider_arrow.png')} />
       </View>
     )
@@ -64,7 +61,6 @@ export default class IntroSlider extends Component {
         <AppIntroSlider
           data={this.slides}
           renderItem={this._renderItem}
-          // renderPagination={this._renderPagination}
           renderNextButton={this._renderNextButton}
           renderDoneButton={this._renderNextButton}
           onDone={this._onDone}
@@ -78,11 +74,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
+
   mainContent: {
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center'
   },
+
   img: {
     width: '100%',
     height: '100%',
@@ -94,9 +92,34 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+
   image: {
     width: 320,
     height: 320,
     marginVertical: 32,
+  },
+
+  nextLabel: {
+    fontSize: 22,
+    lineHeight: 27, 
+    textAlignVertical: 'center',
+    color: '#492897'
+  },
+
+  btnWrap: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: NEXT_BUTTON_WIDTH,
+    height: NEXT_BUTTON_WIDTH * .24,
+    backgroundColor: 'white',
+    borderTopLeftRadius: 42,
+    borderBottomLeftRadius: 42,
+  },
+
+  arrowImg: {
+    width: 30,
+    height: 25,
+    marginLeft: 24
   }
 });

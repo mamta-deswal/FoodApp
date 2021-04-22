@@ -2,7 +2,6 @@
 
 // a library to wrap and simplify api calls
 import apisauce from 'apisauce';
-import {AsyncStorage} from "react-native";
 let API_BASE_URL = 'https://feeds.24.com/';
 
 
@@ -24,20 +23,6 @@ const create = (baseURL = API_BASE_URL) => {
     // 10 second timeout...
     timeout: 10000,
   });
-
-  //const authorizationKey = AsyncStorage.getItem("accessToken");
-  var authorizationKey = '';
-  try {
-    var value = AsyncStorage.getItem("accessToken").then(
-      (values) => {
-      //   value = values;
-        console.log('Then: ',values);
-        authorizationKey = values;
-      });
-      console.log("value-----", value);
-  } catch (error) {
-    console.log('Error: ',error);
-  }
 
   // ------
   // STEP 2
