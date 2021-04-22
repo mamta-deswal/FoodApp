@@ -1,6 +1,6 @@
 //example api request: replace with your API request here in folder API
 
-const getFoodList = async () => {
+const getFeedList = async () => {
   try {
     let response = await fetch(
       'https://api.jsonbin.io/b/5fce7e1e2946d2126fff85f0'
@@ -14,7 +14,7 @@ const getFoodList = async () => {
 };
 
 module.exports = {
-  getFoodList,
+  getFeedList,
 }
 
 

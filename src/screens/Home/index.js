@@ -10,8 +10,8 @@ import {
 } from 'react-native'
 
 import styles from './styles'
-import { fetchFoodData } from '../../stores/actions/food.action'
-import FoodModal from '../../components/foodModal'
+import FeedAction from '../../Stores/Feed';
+import FeedComponent from '../../components/Feed';
 
 class Home extends PureComponent {
 
@@ -23,21 +23,19 @@ class Home extends PureComponent {
   }
    
   componentDidMount() {
-    const { foodList } = this.props;
-    if(foodList && foodList.length === 0) {
-      this.setState({isLoading : true}, () => {
-        this.props.getFoodData();
-      })
-    }
+    this.setState({isLoading: false},  () => {
+      this.props.getFeed();
+    })
   }
 
 
   componentDidUpdate(prevProps) {
-    const { foodList, isLoading, success } = this.props;
-    if(prevProps.foodList !== foodList && !isLoading) {
-        if(success) {
+    const { FeedList } = this.props;
+    console.log("feddlist========", FeedList);
+    if(prevProps.FeedList.data !== FeedList.data && !FeedList.isLoading) {
+        if(!FeedList.error) {
           this.setState({
-            foodList: foodList,
+            FeedList: FeedList.data,
             isLoading: false,
           })
         } else {
@@ -55,16 +53,7 @@ class Home extends PureComponent {
     return (
         <SafeAreaView style={styles.container}>
           {this.state.isLoading ? <ActivityIndicator size={"small"} color={"#000"}/> :
-            <>
-              <TouchableOpacity style={styles.buttonStyle} onPress={() => this.setState({isOpenModal:  true})}>
-                <Text style={styles.btnLabel}>FoodList</Text>
-              </TouchableOpacity>
-              <Modal 
-                isVisible={this.state.isOpenModal} 
-                coverScreen={true} style={{ margin: 0}}>
-                <FoodModal foodList={this.props.foodList} handleModal={this.handleModal}/>
-              </Modal>
-            </>
+            <FeedComponent feedData={this.state.FeedList}/>
           }
         </SafeAreaView>
     )
@@ -73,16 +62,14 @@ class Home extends PureComponent {
 
 const mapStateToProps = state => {
   return {
-    foodList: state.foodReducer.food,
-    isLoading: state.foodReducer.isLoading,
-    success: state.foodReducer.success,
+    FeedList: state.feed,
+    // isLoading: state.FeedReducer.isLoading,
+    // success: state.FeedReducer.success,
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  getFoodData: () => {
-    dispatch(fetchFoodData());
-  },
+  getFeed: () => dispatch(FeedAction.feed()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)
